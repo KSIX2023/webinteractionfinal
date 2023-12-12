@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Memorial Board</title>
+    <style>
+        html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+        body {
+     font-family: 'nanum';
+     
+    background: radial-gradient(circle at var(--x) var(--y), rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.5) 40%), url('memorial.png');
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+    --x: 50%;
+    --y: 50%;
+}
+form {
+    margin-bottom: 1em;
+}
+#playButton {
+    font-family: 'MaruBuri', sans-serif;
+    font-size: 50px;
+    text-align: center;
+    color:#ffffff;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+.playButton img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.clickPrompt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    color: white;
+    font-family: 'Nanum';
+    font-size: 1em;
+}
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.fadeOut {
+    animation-name: fadeOut;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+    </style>
+</head>
+<body>
+    <audio id="mainAudio" src="main2.mp3"></audio>
+    <div id="playButton" class="playButton">
+            <img src="button.jpg" alt="playButton">
+            <div class="clickPrompt">아무 곳이나 클릭해주세요</div>
+        </a>
+        </div>
+    
+    <h1>In honor of Sakamoto Ryuichi</h1>
+    <p>This is a place to remember and honor our loved artist. Please click the empty place to leave your a memorial message<br> 사카모토 류이치를 기리기 위한 추모 게시판입니다. 빈 곳을 클릭하여 여러분의 메시지를 남겨주세요.<br>메모지를 더블클릭하시면 자세한 내용을 볼 수 있고, 다시 더블클릭하면 원래대로 돌아갑니다. 메모지를 드래그하여 위치도 자유롭게 옮길 수 있습니다.</p>
+    <style>
+        h1 {
+            font-family: 'Nanum';
+            font-size: 50px;
+            color: #000000;
+            line-height: 1.5;
+            margin-left: 50px;
+        }
+        p {
+            font-family: 'Pretendard-Bold';
+            font-size: 15px;
+            color: #000000;
+            line-height: 1.5;
+            margin-left: 50px;
+        }
+        @font-face {
+        font-family: 'nanum';
+        src: url('nanum.ttf') format('truetype');
+    }
+        @font-face {
+            font-family: 'Pretendard-Bold';
+            src: url('Pretendard-Bold.otf') format('opentype');
+        }
+        @font-face {
+            font-family: 'Pretendard-Medium';
+            src: url('Pretendard-Medium.otf') format('opentype');
+        }
+    </style>
+   <script>
+    document.addEventListener('mousemove', function(event) {
+    document.body.style.setProperty('--x', event.clientX + 'px');
+    document.body.style.setProperty('--y', event.clientY + 'px');
+});
+   document.getElementById('playButton').addEventListener('click', function(event) {
+    event.stopPropagation(); // 이벤트 전파를 막습니다.
+    document.getElementById('mainAudio').play();
+    this.classList.add('fadeOut');
+    this.addEventListener('animationend', function() {
+        this.remove(); // 애니메이션이 끝나면 playButton을 삭제합니다.
+    });
+});
+
+   function fillTextWithLineBreaks(ctx, text, x, y, maxWidth, lineHeight) {
+    let chars = text.split('');
+    let line = '';
+
+    for(let n = 0; n < chars.length; n++) {
+        let testLine = line + chars[n];
+        let metrics = ctx.measureText(testLine);
+        let testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
+            ctx.fillText(line, x, y);
+            line = chars[n];
+            y += lineHeight;
+        }
+        else {
+            line = testLine;
+        }
+    }
+    ctx.fillText(line, x, y);
+    line = '';  // line 변수를 초기화합니다.
+}
+addEventListener('click', function(event) {
+    if (event.target.tagName !== 'IMG' && event.target.tagName !== 'BUTTON') {
+        let inputName = prompt("이름을 입력하세요:");
+        let inputMessage = prompt("메시지를 입력하세요:");
+        // 나머지 코드...
+        if (inputName && inputMessage) {
+            let canvas = document.createElement('canvas');
+            canvas.width = 400;
+            canvas.height = 400;
+            let ctx = canvas.getContext('2d');
+            let img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = function() {
+                
+                ctx.drawImage(img, 0, 0, 400, 400);
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'middle';
+                ctx.font = '40px nanum';
+                ctx.fillText(inputName, canvas.width / 2-150, canvas.height / 2 - 150);
+    
+                ctx.font = '30px nanum';
+                fillTextWithLineBreaks(ctx, inputMessage, canvas.width / 2 - 150, canvas.height / 2 - 100, 300, 45);
+    
+                let img2 = new Image();
+                img2.onload = function() {
+    img2.style.position = 'absolute';
+    img2.style.zIndex = 100;
+    img2.style.left = `${event.pageX}px`;
+    img2.style.top = `${event.pageY}px`;
+
+    img2.onmouseover = function() {
+        this.style.transform = 'scale(1.1) rotate(10deg)';
+        this.style.transition = 'transform 0.3s ease-in-out';
+    }
+
+    img2.onmouseout = function() {
+        this.style.transform = 'scale(1) rotate(0deg)';
+    }
+
+    let img2Wrapper = document.createElement('div');
+    img2Wrapper.style.background = 'radial-gradient(circle at var(--x) var(--y), rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.5) 40%)';
+    img2Wrapper.style.backgroundSize = 'cover';
+    img2Wrapper.style.backgroundPosition = 'center';
+    img2Wrapper.style.backgroundRepeat = 'no-repeat';
+    img2Wrapper.appendChild(img2);
+    document.body.appendChild(img2Wrapper);
+};
+    
+    let isZoomed = false; // 이미지가 확대되었는지 확인하는 플래그
+    
+img2.ondblclick = function(event) {
+    if (!isZoomed) {
+        // 이미지가 확대되지 않았다면, 이미지를 확대하고 중앙에 배치합니다.
+        img2.style.width = '500px';
+        img2.style.height = '500px';
+        img2.style.left = '50%';
+        img2.style.top = '50%';
+        img2.style.transform = 'translate(-50%, -50%)';
+        isZoomed = true;
+    } else {
+        // 이미지가 이미 확대되었다면, 원래 크기와 위치로 돌아갑니다.
+        img2.style.width = '100px';
+        img2.style.height = '100px';
+        img2.style.left = `${event.pageX}px`;
+        img2.style.top = `${event.pageY}px`;
+        img2.style.transform = 'none';
+        isZoomed = false;
+    }
+};
+    // 드래그 이벤트 추가
+    let pos = { top: 0, left: 0, x: 0, y: 0 };
+
+    img2.onmousedown = function(e) {
+        pos = {
+            left: e.clientX - img2.offsetLeft,
+            top: e.clientY - img2.offsetTop,
+            x: e.clientX,
+            y: e.clientY,
+        };
+        document.onmousemove = mouseMoveHandler;
+        document.onmouseup = mouseUpHandler;
+    };
+
+    function mouseMoveHandler(e) {
+        let dx = e.clientX - pos.x;
+        let dy = e.clientY - pos.y;
+
+        img2.style.top = `${img2.offsetTop + dy}px`;
+        img2.style.left = `${img2.offsetLeft + dx}px`;
+
+        pos = {
+            left: img2.offsetLeft - e.clientX,
+            top: img2.offsetTop - e.clientY,
+            x: e.clientX,
+            y: e.clientY,
+        };
+    }
+
+    function mouseUpHandler() {
+        document.onmousemove = null;
+        document.onmouseup = null;
+    }
+    
+                img2.src = canvas.toDataURL('image/png');
+                img2.width = 100;
+                img2.height = 100;
+            };
+            let images = [
+    'https://raw.githubusercontent.com/KSIX2023/webinter2023-finalimg/main/paper1.jpg',
+    'https://raw.githubusercontent.com/KSIX2023/webinter2023-finalimg/main/paper2.png',
+    'https://raw.githubusercontent.com/KSIX2023/webinter2023-finalimg/main/paper3.jpg',
+    'https://raw.githubusercontent.com/KSIX2023/webinter2023-finalimg/main/paper4.jpg',
+    'https://raw.githubusercontent.com/KSIX2023/webinter2023-finalimg/main/paper5.jpg',
+    'https://raw.githubusercontent.com/KSIX2023/webinter2023-finalimg/main/paper6.jpg',
+    'https://raw.githubusercontent.com/KSIX2023/webinter2023-finalimg/main/paper7.jpg',
+    'https://raw.githubusercontent.com/KSIX2023/webinter2023-finalimg/main/paper8.jpg',
+    'https://raw.githubusercontent.com/KSIX2023/webinter2023-finalimg/main/paper9.jpg',
+    'https://raw.githubusercontent.com/KSIX2023/webinter2023-finalimg/main/paper10.jpg',
+    // 추가로 더 많은 이미지 URL을 넣을 수 있습니다.
+];
+
+let randomIndex = Math.floor(Math.random() * images.length);
+
+img.src = images[randomIndex];
+        } 
+
+   
+    }
+    });
+
+    
+    </script>
+    </body>
+    </html>
