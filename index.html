@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+       body {
+    /* 배경 이미지 설정. 이미지 URL은 실제 이미지 경로로 변경해야 합니다. */
+    background: url('main.jpg') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+@font-face {
+    font-family: 'MaruBuri';
+    src: url('MaruBuri-SemiBold.otf') format('opentype');
+}
+
+
+
+#onboarding {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#onboarding h1 {
+    font-size: 2em;
+    color: #ffffff;
+    font-family: 'MaruBuri', sans-serif; /* 폰트 변경 */
+}
+#enterButton {
+    font-family: 'MaruBuri', sans-serif;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    color: #000; /* 버튼 텍스트 색상 변경 */
+    background-color: #fff; /* 버튼 배경색 변경 */
+    border: none;
+    cursor: pointer;
+}
+#light {
+    position: absolute;
+    top: 41.2%;  /* 원형 요소의 위치를 변경하려면 이 값을 수정하세요.*/
+    left: 24.7%;  /* 원형 요소의 위치를 변경하려면 이 값을 수정하세요.*/
+    width: 50px;  /* 원형 요소의 크기를 변경하려면 이 값을 수정하세요.*/
+    height: 50px;  /* 원형 요소의 크기를 변경하려면 이 값을 수정하세요.*/
+    background-color: white;  /* 원형 요소의 색상을 변경하려면 이 값을 수정하세요.*/
+    border-radius: 50%;  /* 원형 요소를 만들기 위해 이 값을 설정합니다.*/
+    opacity: 0;  /* 원형 요소의 불투명도를 설정합니다.*/
+    animation: flicker 10s infinite;  /* 애니메이션을 설정합니다.*/
+    box-shadow: 0 0 150px 150px white;  /* 페더링 효과를 설정합니다.*/
+}
+
+@keyframes flicker {
+    0% { opacity: 0.1; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0.1; }
+}
+    </style>
+</head>
+<body>
+    <!-- HTML -->
+    <div id="light"></div>
+    <div id="onboarding">
+        <h1>Ryuichi Sakamoto Online Funeral</h1>
+                 
+        <button id="enterButton">입장하기</button>
+    </div>
+
+    <script>
+        // JavaScript
+        document.getElementById('enterButton').addEventListener('click', function() {
+            window.location.href = 'main.html'; // 메인 페이지로 이동
+        });
+    </script>
+</body>
+</html>

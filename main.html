@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ryuichi Sakamoto Memorial</title>
+    <style>
+         @font-face {
+             font-family: 'MaruBuri';
+            src: url('MaruBuri-SemiBold.otf') format('opentype');
+            }
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #000000; /* 배경색은 필요에 따라 수정하세요. */
+           
+        }
+
+        #mainImage {
+            width: 100%;
+            max-width: 600px; /* 이미지 최대 너비는 필요에 따라 수정하세요. */
+            border-radius: 10px; /* 이미지에 모서리를 둥글게 만듭니다. */
+        }
+
+        #mainText {
+            font-family: 'MaruBuri', sans-serif; /* 폰트 변경 */
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+            color: #f0f0f0;
+        }
+
+        #buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        #playButton {
+            font-family: 'MaruBuri', sans-serif;
+            font-size: 50px;
+            color:#ffffff;
+            background-color:#000000; /* 버튼 배경색 변경 */
+        }
+        
+
+        .button1 {
+            display: flex;
+            position:absolute;
+            left: 250px;
+            bottom: 300px;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            text-decoration: none;
+            color: #f0f0f0; /* 버튼 텍스트 색상은 필요에 따라 수정하세요. */
+            border-radius: 10px;
+        }
+        .button2 {
+            display: flex;
+            position:absolute;
+            right: 250px;
+            bottom: 300px;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            text-decoration: none;
+            color: #f0f0f0; /* 버튼 텍스트 색상은 필요에 따라 수정하세요. */
+            border-radius: 10px;
+        }
+        .button1 img {
+            width: 100%;
+            max-width: 150px; /* 이미지 최대 너비는 필요에 따라 수정하세요. */
+            border-radius: 10px; /* 이미지에 모서리를 둥글게 만듭니다. */
+            margin-bottom: 10px;
+        }
+        .button2 img {
+            width: 100%;
+            max-width: 150px; /* 이미지 최대 너비는 필요에 따라 수정하세요. */
+            border-radius: 10px; /* 이미지에 모서리를 둥글게 만듭니다. */
+            margin-bottom: 10px;
+        }
+        @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+.button1, .button2 {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.button1:hover, .button2:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.667);
+}
+
+.fadeOut {
+    animation-name: fadeOut;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+
+       
+    </style>
+</head>
+<body>
+    <img id="mainImage" src="main.jpg" alt="Ryuichi Sakamoto">
+    <button id="playButton" style="position: fixed; width: 100%; height: 100%; z-index: 100;">환영합니다. <br> 아무 곳이나 클릭해주세요</button>
+    <audio id="mainAudio" src="main.mp3"></audio>
+
+    <div id="mainText">SAKAMOTO RYUICHI<br> 1952-2023 </div>
+
+    <div id="button1">
+        <a href="funeralmusicgallery.html" class="button1">
+            <img src="gallery.jpg" alt="Funeral Music Gallery">
+            <div>Funeral Music Gallery</div>
+        </a>
+        </div>
+       
+        <div id="button2">
+
+        <a href="memorialboard.html" class="button2">
+            <img src="board.jpg" alt="Memorial Board">
+            <div>Memorial Board</div>
+        </a>
+
+       
+    </div>
+    <script>
+       document.getElementById('playButton').addEventListener('click', function() {
+    document.getElementById('mainAudio').play();
+    this.classList.add('fadeOut');
+});
+playButton.addEventListener('animationend', function() {
+    this.style.display = 'none';
+});
+     // HTML 요소를 생성하여 반딧불이를 표현합니다.
+     let windowWidth = window.innerWidth;
+let windowHeight = window.innerHeight;
+
+// HTML 요소를 생성하여 반딧불이를 표현합니다.
+let fireflies = [];
+for (let i = 0; i < 200; i++) {
+    let firefly = document.createElement('div');
+    firefly.className = 'firefly';
+    // 초기 위치를 랜덤하게 설정합니다.
+    firefly.style.left = `${Math.random() * windowWidth}px`;
+    firefly.style.top = `${Math.random() * windowHeight}px`;
+    document.body.appendChild(firefly);
+    fireflies.push(firefly);
+}
+
+// CSS를 사용하여 반딧불이의 스타일을 정의합니다.
+let style = document.createElement('style');
+style.innerHTML = `
+.firefly {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: white;
+    border-radius: 50%;
+}`;
+document.head.appendChild(style);
+
+// JavaScript를 사용하여 반딧불이의 움직임을 제어합니다.
+let mouseX = 0, mouseY = 0;
+document.addEventListener('mousemove', function(event) {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+});
+// 각 반딧불이가 가지는 속도와 방향을 변수로 저장합니다.
+for (let firefly of fireflies) {
+    firefly.vx = Math.random() * 2 - 1;
+    firefly.vy = Math.random() * 2 - 1;
+}
+
+function animate() {
+    let windowWidth = window.innerWidth;
+    let windowHeight = window.innerHeight;
+
+    for (let firefly of fireflies) {
+        let dx = firefly.offsetLeft - mouseX;
+        let dy = firefly.offsetTop - mouseY;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 100) {
+            dx /= distance;
+            dy /= distance;
+            firefly.vx += dx;
+            firefly.vy += dy;
+        } else if (distance < 200) {
+            dx /= distance;
+            dy /= distance;
+            firefly.vx -= dx;
+            firefly.vy -= dy;
+        }
+
+        let speed = Math.sqrt(firefly.vx * firefly.vx + firefly.vy * firefly.vy);
+        if (speed > 3) {
+            firefly.vx /= speed / 3;
+            firefly.vy /= speed / 3;
+        }
+
+        firefly.style.left = `${firefly.offsetLeft + firefly.vx}px`;
+        firefly.style.top = `${firefly.offsetTop + firefly.vy}px`;
+
+        // 화면 밖으로 나가면 다시 랜덤 위치에서 출발하게 합니다.
+        if (firefly.offsetLeft < 0 || firefly.offsetLeft > windowWidth-100 ||
+            firefly.offsetTop < 0 || firefly.offsetTop > windowHeight-100) {
+            firefly.style.left = `${Math.random() * windowWidth}px`;
+            firefly.style.top = `${Math.random() * windowHeight}px`;
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+    </script>
+
+</body>
+</html>
